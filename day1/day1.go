@@ -63,6 +63,7 @@ func main () {
 		numbers = string(numbers[0]) + string(numbers[len(numbers)-1])
 		fmt.Printf("combine first and last: %s\n",numbers)
 		intConversion, err = strconv.Atoi(string(numbers))
+		check(err)
 		finalCoordinates = finalCoordinates + intConversion
 	}
 	fmt.Print(finalCoordinates)
