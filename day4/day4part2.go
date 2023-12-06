@@ -15,7 +15,7 @@ func check(e error) {
 }
 
 func main() {
-	input, err := os.Open("C:/Users/shamu/Documents/Code/advent-of-code-2023/day4/inputTest.txt")
+	input, err := os.Open("C:/Users/shamu/Documents/Code/advent-of-code-2023/day4/input.txt")
 	check(err)
 
 	fileScan := bufio.NewScanner(input)
@@ -25,7 +25,7 @@ func main() {
         inputLines = append(inputLines, fileScan.Text())
     }
 	var totalScore int
-	var totalCount []int
+	totalCount := []int{0}
 	cardCount := 1
 	for _, line := range inputLines {
 		var lineSplit []string
@@ -59,22 +59,36 @@ func main() {
 				}
 			}
 		}
+		if cardScore == 0 {
+			arrayAppend := []int{0}
+			totalCount = append(totalCount, arrayAppend...)
+		}
 		fmt.Printf("totalCount is: %d \n", totalCount)
-		var totalCountAmmend []int
+		totalCountAmmend := []int{0}
 		if len(totalCount) < cardCount + cardScore {
 			var appendLoop int 
-			var arrayAppend []int
+			arrayAppend := []int{0}
 			appendLoop = cardCount + cardScore - len(totalCount)
 			for i := 1; i < appendLoop; i++ {
 				arrayAppend[0] = 0
 				totalCountAmmend = append(totalCountAmmend, arrayAppend...)
+				// fmt.Printf("totalCount is: %d \n", totalCount)
 			}
 			totalCount = append(totalCount, totalCountAmmend...)
 		}
-		fmt.Printf("totalCount is: %d \n", totalCount)
-		fmt.Printf("Card %d total score is %d\n", cardCount, cardScore)
-		for currentCount := 1; currentCount < cardScore + 1; currentCount++ {
-			totalCount[cardCount + currentCount] = totalCount[cardCount + currentCount] + 1
+		// fmt.Printf("totalCount is: %d \n", totalCount)
+		// fmt.Printf("Card %d total score is %d\n", cardCount, cardScore)
+		totalCount[cardCount-1] = totalCount[cardCount-1] + 1
+		if cardScore > 0 {
+			multiplier := totalCount[cardCount-1]
+			for multipleCards := 0; multipleCards < multiplier; multipleCards++{
+				for currentCount := 0; currentCount < cardScore; currentCount++ {
+					totalCount[cardCount+currentCount] = totalCount[cardCount+currentCount] + 1
+				}
+			}
+		} else {
+			arrayAppend := []int{0}
+			totalCountAmmend = append(totalCountAmmend, arrayAppend...)
 		}
 		cardCount = cardCount + 1
 		// cardScore = 0
